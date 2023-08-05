@@ -9,6 +9,7 @@ interface StationItem {
   direction: string;
   stationNm: string;
   stationNo: string;
+  station: string;
   busRouteAbrv: string;
   seq: string;
   //   isBusLocation: boolean;
@@ -65,7 +66,7 @@ const StationList = () => {
       .then((jsonData) => {
         const msgHeader = jsonData.msgHeader;
         if (msgHeader && msgHeader.headerCd === "0") {
-          const busPosData = jsonData.msgBody?.itemList;
+          const busPosData = jsonData.msgBody.itemList;
           setBusLocationData(busPosData || []);
           console.log("버스위치", busPosData);
         } else {
@@ -91,9 +92,9 @@ const StationList = () => {
       .then((jsonData) => {
         const msgHeader = jsonData.msgHeader;
         if (msgHeader && msgHeader.headerCd === "0") {
-          const stationList = jsonData.msgBody?.itemList;
+          const stationList = jsonData.msgBody.itemList;
           setStationList(stationList || []);
-          const busNumber = stationList[0]?.busRouteAbrv || "";
+          const busNumber = stationList[0].busRouteAbrv || "";
           setBusNm(busNumber);
           console.log(stationList);
         } else {
@@ -130,10 +131,11 @@ const StationList = () => {
     // 2개를 선택한 값을 예약페이지로
     if (selectedStations.length === 2) {
       const startStation = selectedStations[0].stationNm;
+      const startStId = selectedStations[0].station;
       const endStation = selectedStations[1].stationNm;
-      const busNumber = stationList[0]?.busRouteAbrv || "";
+      const busNumber = stationList[0].busRouteAbrv || "";
       navigate(
-        `/reservation-page?busNumber=${busNumber}&startStation=${startStation}&endStation=${endStation}`
+        `/reservation-page?busNumber=${busNumber}&startStation=${startStation}&startStId=${startStId}&endStation=${endStation}`
       );
     } else {
       // 2개를 선택하지 않았다면
@@ -158,9 +160,8 @@ const StationList = () => {
     const busLocation = busLocationData.find(
       (location) => location.sectOrd === station.seq
     );
-    const isBusLocation = busLocation?.stopFlag === "1";
-    const isMoving =
-      busLocation?.stopFlag === "0" && busLocation?.sectOrd === station.seq;
+    const isBusLocation = busLocation && busLocation.stopFlag === "1";
+    const isMoving = busLocation && busLocation.stopFlag === "0";
 
     return {
       ...station,
@@ -184,8 +185,8 @@ const StationList = () => {
                   (selectedStation) =>
                     selectedStation.stationNo === result.stationNo
                 )}
-                isBusLocation={result.isBusLocation}
-                isMoving={result.isMoving}
+                isBusLocation={result.isBusLocation as boolean}
+                isMoving={result.isMoving as boolean}
               >
                 {result.stationNm}
                 {result.isMoving && " 🚌(이동중)"}

@@ -40,11 +40,11 @@ const StationArrivalInfoPage = () => {
     )
       .then((response) => response.json())
       .then((jsonData) => {
-        const msgHeader = jsonData?.msgHeader;
+        const msgHeader = jsonData.msgHeader;
         if (msgHeader && msgHeader.headerCd === "0") {
-          const arrivalList = jsonData?.msgBody?.itemList as ArrivalInfo[];
+          const arrivalList = jsonData.msgBody.itemList as ArrivalInfo[];
           setArrivalInfo(arrivalList || []);
-          const stationName = arrivalList[0]?.stNm || "";
+          const stationName = arrivalList[0].stNm || "";
           setStNm(stationName);
           console.log(arrivalList);
         } else {

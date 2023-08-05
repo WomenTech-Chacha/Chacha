@@ -27,10 +27,12 @@ const SearchPage: React.FC = () => {
   const [isBusNumberSearch, setIsBusNumberSearch] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Station[]>([]);
-  const [isBusNumberButtonActive, setIsBusNumberButtonActive] =
-    useState<boolean>(false);
-  const [isStationNameButtonActive, setIsStationNameButtonActive] =
-    useState<boolean>(false);
+  const [isBusNumberButtonActive, setIsBusNumberButtonActive] = useState<
+    boolean
+  >(false);
+  const [isStationNameButtonActive, setIsStationNameButtonActive] = useState<
+    boolean
+  >(false);
 
   const navigate = useNavigate();
 
@@ -51,7 +53,7 @@ const SearchPage: React.FC = () => {
       .then((response) => response.json())
       .then((jsonData) => {
         if (isBusNumberSearch) {
-          const busRoutes = jsonData.msgBody?.itemList as Station[];
+          const busRoutes = jsonData.msgBody.itemList as Station[];
           if (busRoutes && busRoutes.length > 0) {
             setSearchResults(busRoutes);
             console.log(busRoutes);
@@ -70,7 +72,7 @@ const SearchPage: React.FC = () => {
         } else {
           const msgHeader = jsonData.msgHeader;
           if (msgHeader && msgHeader.headerCd === "0") {
-            const stationList = jsonData.msgBody?.itemList as Station[];
+            const stationList = jsonData.msgBody.itemList as Station[];
             setSearchResults(stationList);
             console.log(stationList);
           } else {
