@@ -43,7 +43,6 @@ const StationList = () => {
   const [busNm, setBusNm] = useState<string>("");
   const [selectedStations, setSelectedStations] = useState<StationItem[]>([]);
   const [busLocationData, setBusLocationData] = useState<BusLocationData[]>([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {

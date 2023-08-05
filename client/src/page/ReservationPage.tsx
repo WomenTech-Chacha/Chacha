@@ -10,6 +10,8 @@ interface ArrivalInfo {
   busRouteId: string; // 버스 루트 번호 (노선구분용 Id)
   vehId1: string; // 각 버스 고유 번호 - 데이터 넘겨주기 위함
   vehId2: string;
+  plainNo1: string; // 차량 번호
+  plainNo2: string;
 }
 
 interface OneBusInfo {
@@ -21,6 +23,8 @@ interface OneBusInfo {
   busRouteId: string; // 버스 루트 번호 (노선구분용 Id)
   vehId1: string; // 각 버스 고유 번호 - 데이터 넘겨주기 위함
   vehId2: string;
+  plainNo1: string; // 차량 번호
+  plainNo2: string;
 }
 
 const API_KEY =
@@ -32,7 +36,7 @@ const ReservationPage = () => {
   const startStation = queryParams.get("startStation");
   const endStation = queryParams.get("endStation");
   const busNumber = queryParams.get("busNumber");
-  const stId = queryParams.get("startStId"); // Assuming you also have busId in the query params
+  const stId = queryParams.get("startStId");
 
   const [arrivalInfo, setArrivalInfo] = useState<ArrivalInfo[]>([]);
   const [oneBusInfo, setOneBusInfo] = useState<OneBusInfo[]>([]);
@@ -79,23 +83,29 @@ const ReservationPage = () => {
   };
 
   const handleBoardingClick = () => {
-    navigate(`/onboarding-page?busId=${stId}`);
+    navigate(
+      `/onboarding-page?busRouteId=${oneBusInfo[0].busRouteId}&plainNo1=${oneBusInfo[0].plainNo1}&plainNo2=${oneBusInfo[0].plainNo2}`
+    );
   };
 
   return (
     <div>
       <h1>예약현황</h1>
-      <p>탑승예약: {busNumber}번 버스</p>
+      {oneBusInfo.length === 0 ? (
+        <p>예약 내역이 없습니다</p>
+      ) : (
+        oneBusInfo.map((busInfo, index) => (
+          <div key={index}>
+            <p>예약버스: {busNumber}번 버스</p>
+            <p>출발지: {startStation} 정류장</p>
+            <span>
+              출발지 버스 도착 예정시간: {busInfo.arrmsg1}|{busInfo.arrmsg2}
+            </span>
+            <p>도착지: {endStation} 정류장</p>
+          </div>
+        ))
+      )}
 
-      {oneBusInfo.map((busInfo, index) => (
-        <div key={index}>
-          <p>출발지: {startStation}</p>
-          <span>
-            출발지 버스 도착 예정시간: {busInfo.arrmsg1}|{busInfo.arrmsg2}
-          </span>
-          <p>도착지: {endStation}</p>
-        </div>
-      ))}
       <button onClick={handleBoardingClick}>탑승완료</button>
       <Link to="/reservation-cancel-page">
         <button>예약취소</button>
