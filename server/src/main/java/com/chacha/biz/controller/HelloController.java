@@ -7,6 +7,7 @@ import com.chacha.biz.mapper.BusService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,16 +34,14 @@ public class HelloController {
         return "서버포트는 8081, 리액트 포트는 3000";
     }
 
-    @GetMapping("/")
-    public String hello(Model model) throws Exception {
-        System.out.println(busService.getAll().toString());
+    @GetMapping("/busStationMap")
+    public ResponseEntity getBusStations(Model model) throws Exception {
+        //System.out.println(busService.getAll().toString());
         model.addAttribute("busStations",busService.getAll());
 
-        //ResponseEntity<BusStationDTO> responseEntity = new ResponseEntity<>();
-
-        return "index";
+        return new ResponseEntity<>(model, HttpStatus.OK);
     }
-    @GetMapping("/insertBus")
+   /* @GetMapping("/insertBus")
     public String insertBus() throws IOException, ParserConfigurationException, SAXException, ParseException {
         BusStationExplorer busExplorer = new BusStationExplorer();
         List<BusStationDTO> list = new ArrayList<>();
@@ -51,5 +50,5 @@ public class HelloController {
             busService.insertBusStation(dto);
         }
         return "test";
-    }
+    }*/
 }
