@@ -18,8 +18,6 @@ interface StationItem {
 
 interface SelectedStationItemProps {
   isSelected: boolean;
-  isBusLocation: boolean;
-  isMoving: boolean;
 }
 
 interface BusLocationData {
@@ -37,13 +35,16 @@ const SelectedStationItem = styled.div<SelectedStationItemProps>`
 `;
 
 const StationList = () => {
-  const [stationList, setStationList] = useState<StationItem[]>([]);
   const location = useLocation();
+  const navigate = useNavigate();
   const busId = new URLSearchParams(location.search).get("busId");
+  const [stationList, setStationList] = useState<StationItem[]>([]);
   const [busNm, setBusNm] = useState<string>("");
   const [selectedStations, setSelectedStations] = useState<StationItem[]>([]);
   const [busLocationData, setBusLocationData] = useState<BusLocationData[]>([]);
-  const navigate = useNavigate();
+  const [selectedDirection, setSelectedDirection] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (busId) {
@@ -146,16 +147,11 @@ const StationList = () => {
     setSelectedStations([]);
   };
 
-  const stationsByDirection: { [key: string]: StationItem[] } = {};
-  stationList.forEach((station) => {
-    const direction = station.direction;
-    if (!stationsByDirection[direction]) {
-      stationsByDirection[direction] = [];
-    }
-    stationsByDirection[direction].push(station);
-  });
+  const filteredStations = selectedDirection
+    ? stationList.filter((station) => station.direction === selectedDirection)
+    : [];
 
-  const mergedStationData = stationList.map((station) => {
+  const mergedStationData = filteredStations.map((station) => {
     const busLocation = busLocationData.find(
       (location) => location.sectOrd === station.seq
     );
@@ -169,33 +165,43 @@ const StationList = () => {
     };
   });
 
+  const directionNames = Array.from(
+    new Set(stationList.map((station) => station.direction))
+  );
+
+  const handleDirectionClick = (direction: string) => {
+    if (selectedDirection !== direction) {
+      setSelectedDirection(direction);
+    }
+  };
+
   return (
     <div>
       <h1>{busNm}번 버스</h1>
-      {Object.keys(stationsByDirection).map((direction, index) => (
-        <div key={index}>
-          <h2>{direction}방면</h2>
-          <div className="data">
-            {mergedStationData.map((result, index) => (
-              <SelectedStationItem
-                key={index}
-                onClick={() => handleStationClick(result)}
-                isSelected={selectedStations.some(
-                  (selectedStation) =>
-                    selectedStation.stationNo === result.stationNo
-                )}
-                isBusLocation={result.isBusLocation as boolean}
-                isMoving={result.isMoving as boolean}
-              >
-                {result.stationNm}
-                {result.isMoving && " 🚌(이동중)"}
-                {result.isBusLocation && " 🚌"}
-                <button>선택</button>
-              </SelectedStationItem>
-            ))}
-          </div>
-        </div>
-      ))}
+      <div>
+        {directionNames.map((direction, index) => (
+          <button key={index} onClick={() => handleDirectionClick(direction)}>
+            {direction} 방면
+          </button>
+        ))}
+      </div>
+      <div>
+        {mergedStationData.map((result, index) => (
+          <SelectedStationItem
+            key={index}
+            onClick={() => handleStationClick(result)}
+            isSelected={selectedStations.some(
+              (selectedStation) =>
+                selectedStation.stationNo === result.stationNo
+            )}
+          >
+            {result.stationNm}
+            {result.isMoving && " 🚌(이동중)"}
+            {result.isBusLocation && " 🚌"}
+            <button>선택</button>
+          </SelectedStationItem>
+        ))}
+      </div>
       <button onClick={handleReservationClick}>예약 하기</button>
       <button onClick={handleResetClick}>다시선택하기</button>
     </div>
