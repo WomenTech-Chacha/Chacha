@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface ArrivalInfo {
   stNm: string; // 정류장 이름
@@ -88,6 +88,37 @@ const ReservationPage = () => {
     );
   };
 
+  const resetData = () => {
+    setArrivalInfo([]);
+    setOneBusInfo([]);
+  };
+
+  const handleCancelClick = () => {
+    const confirmed = window.confirm("예약을 취소하시겠습니까?");
+    if (confirmed) {
+      resetData();
+      navigate("/"); // 처음 화면으로 이동
+    }
+  };
+
+  const handleBusSelection = (busId: string) => {
+    navigate(`/bus-stops?busId=${busId}`);
+  };
+
+  const verifyMessage = (value: string) => {
+    let minutesSplit = value.split("분");
+    if (value === "운행종료" || value === "출발대기" || value === "곧 도착") {
+      // 버튼을 비활성화
+      return false;
+    } else if (Number(minutesSplit[0]) < 5) {
+      // 버튼을 비활성화
+      return false;
+    } else {
+      // 버튼 활성화
+      return true;
+    }
+  };
+
   return (
     <div>
       <h1>예약현황</h1>
@@ -99,7 +130,21 @@ const ReservationPage = () => {
             <p>예약버스: {busNumber}번 버스</p>
             <p>출발지: {startStation} 정류장</p>
             <span>
-              출발지 버스 도착 예정시간: {busInfo.arrmsg1}|{busInfo.arrmsg2}
+              출발지 버스 도착 예정시간:
+              {busInfo.arrmsg1}
+              <button
+                onClick={() => handleBusSelection(busInfo.busRouteId)}
+                disabled={!verifyMessage(busInfo.arrmsg1)}
+              >
+                선택
+              </button>
+              |{busInfo.arrmsg2}
+              <button
+                onClick={() => handleBusSelection(busInfo.busRouteId)}
+                disabled={!verifyMessage(busInfo.arrmsg2)}
+              >
+                선택
+              </button>
             </span>
             <p>도착지: {endStation} 정류장</p>
           </div>
@@ -107,9 +152,7 @@ const ReservationPage = () => {
       )}
 
       <button onClick={handleBoardingClick}>탑승완료</button>
-      <Link to="/reservation-cancel-page">
-        <button>예약취소</button>
-      </Link>
+      <button onClick={handleCancelClick}>예약취소</button>
     </div>
   );
 };

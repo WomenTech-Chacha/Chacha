@@ -88,6 +88,20 @@ const StationArrivalInfoPage = () => {
     navigate(`/bus-stops?busId=${busId}`);
   };
 
+  const verifyMessage = (value: string) => {
+    let minutesSplit = value.split("분");
+    if (value === "운행종료" || value === "출발대기" || value === "곧 도착") {
+      // 버튼을 비활성화
+      return false;
+    } else if (Number(minutesSplit[0]) < 5) {
+      // 버튼을 비활성화
+      return false;
+    } else {
+      // 버튼 활성화
+      return true;
+    }
+  };
+
   return (
     <div>
       <h1>{stNm}</h1>
@@ -95,13 +109,19 @@ const StationArrivalInfoPage = () => {
         <ul>
           {arrivalInfo.map((info, index) => (
             <li key={index}>
-              {info.busRouteAbrv} | {getRouteType(info.routeType)} |{" "}
-              {info.arrmsg1}{" "}
-              <button onClick={() => handleBusSelection(info.busRouteId)}>
+              {info.busRouteAbrv} | {getRouteType(info.routeType)} |
+              {info.arrmsg1}
+              <button
+                onClick={() => handleBusSelection(info.busRouteId)}
+                disabled={!verifyMessage(info.arrmsg1)}
+              >
                 선택
               </button>
               | {info.arrmsg2}
-              <button onClick={() => handleBusSelection(info.busRouteId)}>
+              <button
+                onClick={() => handleBusSelection(info.busRouteId)}
+                disabled={!verifyMessage(info.arrmsg2)}
+              >
                 선택
               </button>
             </li>
