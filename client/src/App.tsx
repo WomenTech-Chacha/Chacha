@@ -11,6 +11,7 @@ import {
 import SearchPage from "./page/SearchPage";
 import StationArrivalInfoPage from "./page/StationArrivalInfoPage";
 import OnboardingPage from "./page/OnboardingPage";
+import NearbyStationPage from "./page/NearbyStationPage";
 
 const MyBackButton = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const App = () => {
       <MyBackButton />
       <Routes>
         <Route path="/" element={<SearchPage />} />
+        <Route path="/nearby-stops" element={<NearbyStationPage />} />
         <Route
           path="/station-arrival-info"
           element={<StationArrivalInfoPage />}
