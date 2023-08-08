@@ -27,11 +27,12 @@ const OnboardingPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const busRouteId = queryParams.get("busRouteId");
-  const plainNo1 = queryParams.get("plainNo1");
-  // const plainNo2 = queryParams.get("plainNo2");
+  const arrStId = queryParams.get("arrStId");
+  const plainNo = queryParams.get("plainNo");
 
   const [stationList, setStationList] = useState<StationItem[]>([]);
   const [busPositions, setBusPositions] = useState<BusLocationData[]>([]);
+  const [arrivalStId, setArrivalStId] = useState(arrStId); // 도착지를 변경하면, 바꾸기 위한 상태값
   const [selectedDirection, setSelectedDirection] = useState<string | null>(
     null
   );
@@ -42,11 +43,12 @@ const OnboardingPage = () => {
 
   useEffect(() => {
     getStationInfo(), getBusPos();
-  }, [busRouteId, plainNo1]);
+  }, [busRouteId, plainNo]);
 
   useEffect(() => {
+    // 고른 버스의 현재 위치를 알려주는 데이터
     const matchingBusPosition = busPositions.find(
-      (busPosition) => busPosition.plainNo === plainNo1
+      (busPosition) => busPosition.plainNo === plainNo
     );
 
     if (matchingBusPosition) {
@@ -58,7 +60,7 @@ const OnboardingPage = () => {
         setSelectedDirection(matchingStation.direction);
       }
     }
-  }, [busPositions, stationList, plainNo1]);
+  }, [busPositions, stationList, plainNo]);
 
   const getStationInfo = () => {
     const queryParams = new URLSearchParams();
@@ -130,13 +132,14 @@ const OnboardingPage = () => {
           const matchingBusPosition = busPositions.find(
             (busPosition) =>
               busPosition.sectOrd === station.seq &&
-              busPosition.plainNo === plainNo1
+              busPosition.plainNo === plainNo
           );
+          const isArrivalStation = station.station === arrStId;
 
           const busIcon = matchingBusPosition
             ? matchingBusPosition.stopFlag === "1"
-              ? "🚌"
-              : "🚌 (이동중)"
+              ? "🚌 현재버스위치"
+              : "🚌 현재버스위치(이동중)"
             : "";
 
           return (
@@ -144,6 +147,7 @@ const OnboardingPage = () => {
               {/* Display station information here */}
               <p>
                 {station.stationNm} {busIcon}
+                {isArrivalStation && "🚌 도착정류장"}
               </p>
               {/* ... other station details */}
             </div>
