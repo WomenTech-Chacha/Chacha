@@ -12,6 +12,7 @@ interface StationItem {
   station: string;
   busRouteAbrv: string;
   seq: string;
+
   //   isBusLocation: boolean;
   //   isMoving: boolean;
 }
@@ -38,6 +39,8 @@ const StationList = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const busId = new URLSearchParams(location.search).get("busId");
+  const stId = new URLSearchParams(location.search).get("stId");
+  const plainNo = new URLSearchParams(location.search).get("plainNo");
   const [stationList, setStationList] = useState<StationItem[]>([]);
   const [busNm, setBusNm] = useState<string>("");
   const [selectedStations, setSelectedStations] = useState<StationItem[]>([]);
@@ -52,6 +55,18 @@ const StationList = () => {
       fetchBusLocationData();
     }
   }, [busId]);
+
+  useEffect(() => {
+    if (stId && stationList.length > 0) {
+      const stationFind = stationList.find(
+        (station) => station.station === stId
+      );
+      if (stationFind) {
+        setSelectedDirection(stationFind.direction);
+        setSelectedStations([stationFind]);
+      }
+    }
+  }, [stId, stationList]);
 
   const fetchBusLocationData = () => {
     const queryParams = new URLSearchParams();
@@ -133,9 +148,10 @@ const StationList = () => {
       const startStation = selectedStations[0].stationNm;
       const startStId = selectedStations[0].station;
       const endStation = selectedStations[1].stationNm;
+      const endStId = selectedStations[1].station;
       const busNumber = stationList[0].busRouteAbrv || "";
       navigate(
-        `/reservation-page?busNumber=${busNumber}&startStation=${startStation}&startStId=${startStId}&endStation=${endStation}`
+        `/reserve-page?busNumber=${busNumber}&startStation=${startStation}&startStId=${startStId}&endStation=${endStation}&endStId=${endStId}&plainNo=${plainNo}`
       );
     } else {
       // 2개를 선택하지 않았다면

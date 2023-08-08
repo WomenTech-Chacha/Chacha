@@ -13,6 +13,9 @@ interface ArrivalInfo {
   busRouteId: string; // 버스 루트 번호 (노선구분용 Id)
   vehId1: string; // 각 버스 고유 번호 - 데이터 넘겨주기 위함
   vehId2: string;
+  plainNo1: string;
+  plainNo2: string;
+  stId: string; // 정류소 번호
 }
 
 const StationArrivalInfoPage = () => {
@@ -84,13 +87,18 @@ const StationArrivalInfoPage = () => {
     }
   };
 
-  const handleBusSelection = (busId: string) => {
-    navigate(`/bus-stops?busId=${busId}`);
+  const handleBusSelection = (busId: string, stId: string, plainNo: string) => {
+    navigate(`/bus-stops?busId=${busId}&stId=${stId}&plainNo=${plainNo}`);
   };
 
   const verifyMessage = (value: string) => {
     let minutesSplit = value.split("분");
-    if (value === "운행종료" || value === "출발대기" || value === "곧 도착") {
+    if (
+      value === "운행종료" ||
+      value === "출발대기" ||
+      value === "곧 도착" ||
+      value === "회차대기"
+    ) {
       // 버튼을 비활성화
       return false;
     } else if (Number(minutesSplit[0]) < 5) {
@@ -112,14 +120,18 @@ const StationArrivalInfoPage = () => {
               {info.busRouteAbrv} | {getRouteType(info.routeType)} |
               {info.arrmsg1}
               <button
-                onClick={() => handleBusSelection(info.busRouteId)}
+                onClick={() =>
+                  handleBusSelection(info.busRouteId, info.stId, info.plainNo1)
+                }
                 disabled={!verifyMessage(info.arrmsg1)}
               >
                 선택
               </button>
               | {info.arrmsg2}
               <button
-                onClick={() => handleBusSelection(info.busRouteId)}
+                onClick={() =>
+                  handleBusSelection(info.busRouteId, info.stId, info.plainNo2)
+                }
                 disabled={!verifyMessage(info.arrmsg2)}
               >
                 선택
