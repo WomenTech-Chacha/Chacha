@@ -1,5 +1,5 @@
 import React from "react";
-import ReservationPage from "./page/ReservationPage";
+import ReservePage from "./page/ReservePage";
 import StationList from "./page/StationList";
 import {
   BrowserRouter,
@@ -39,7 +39,7 @@ const App = () => {
           element={<StationArrivalInfoPage />}
         />
         <Route path="/bus-stops" element={<StationList />} />
-        <Route path="/reservation-page" element={<ReservationPage />} />
+        <Route path="/reserve-page" element={<ReservePage />} />
         <Route path="/onboarding-page" element={<OnboardingPage />} />
       </Routes>
       <nav>

@@ -19,7 +19,7 @@
     "webpack-env": "^0.8.0",
     "xml2js-promise": "^0.0.2"
   },
-  "proxy": "http://127.0.0.1:8081",
+  "proxy": "http://13.125.208.107:8081/test",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
