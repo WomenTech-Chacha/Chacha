@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class BusStationDTO {
-    private int STOP_NO;
+    private String STOP_NO; //int
     private String STOP_NM;
-    private Float XCODE;
-    private Float YCODE;
-    private int NODE_ID;
+    private String XCODE; //Float
+    private String YCODE; //Float
+    private String NODE_ID; //int
     private String STOP_TYPE;
 
 }

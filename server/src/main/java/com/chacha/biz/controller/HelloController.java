@@ -4,6 +4,7 @@ import com.chacha.biz.BusStationExplorer;
 import com.chacha.biz.dto.BusStationDTO;
 import com.chacha.biz.impl.BusServiceImpl;
 import com.chacha.biz.mapper.BusService;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,13 +22,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class HelloController {
     private final BusService busService;
-    @Autowired
-    public HelloController(BusService busService) {
-        this.busService = busService;
-    }
+    //@Autowired
+    //public HelloController(BusService busService) {
+    //   this.busService = busService;
+    //}
 
     //리액트 연동 테스트
     @GetMapping("/test")
