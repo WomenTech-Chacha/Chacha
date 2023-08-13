@@ -1,20 +1,20 @@
-package com.chacha.biz.impl;
+package com.chacha.biz.service;
 
+import com.chacha.biz.dao.BusDAO;
 import com.chacha.biz.dto.BusStationDTO;
-import com.chacha.biz.mapper.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+//
 @Service("busService")
-public class BusServiceImpl {
+public class BusService {
 
-    private final BusService busDAO;
+    //private final BusService busDAO;
+    private final BusDAO busDAO;
 
     @Autowired
-    public BusServiceImpl(BusService busDAO) {
+    public BusService(BusDAO busDAO) {
         this.busDAO = busDAO;
     }
 
