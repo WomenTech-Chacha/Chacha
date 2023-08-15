@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BusDAO">
     <select id="getAll" resultType="com.chacha.biz.dto.BusStationDTO">
-        select * from BUS_STATION
+        select * from bus_station
     </select>
     <insert id="insertBusStation" parameterType="com.chacha.biz.dto.BusStationDTO">
-        insert into BUS_STATION values(${STOP_NO},#{STOP_NM},${XCODE},${YCODE},${NODE_ID},#{STOP_TYPE})
+        insert into bus_station values(${STOP_NO},#{STOP_NM},${XCODE},${YCODE},${NODE_ID},#{STOP_TYPE})
     </insert>
 </mapper>
