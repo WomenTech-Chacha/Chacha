@@ -1,4 +1,4 @@
-package com.chacha.biz.busReservation;
+package com.chacha.biz.busReservation.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.chacha.biz.busReservation;
+package com.chacha.biz.busReservation.entity;
 
 import lombok.Builder;
 import lombok.Getter;

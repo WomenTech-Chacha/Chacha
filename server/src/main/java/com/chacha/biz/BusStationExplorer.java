@@ -1,6 +1,6 @@
 package com.chacha.biz;
 
-import com.chacha.biz.dto.BusStationDTO;
+import com.chacha.biz.busStation.dto.BusStationDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

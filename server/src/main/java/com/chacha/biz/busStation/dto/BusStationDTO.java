@@ -1,4 +1,4 @@
-package com.chacha.biz.dto;
+package com.chacha.biz.busStation.dto;
 
 import lombok.Data;
 

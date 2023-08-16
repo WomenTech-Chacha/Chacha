@@ -1,6 +1,6 @@
-package com.chacha.biz.service;
+package com.chacha.biz.busReservation.service;
 
-import com.chacha.biz.busReservation.EmitterRepository;
+import com.chacha.biz.busReservation.repository.EmitterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

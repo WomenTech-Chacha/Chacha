@@ -1,4 +1,4 @@
-package com.chacha.biz.busStation;
+package com.chacha.biz.busStation.entity;
 
 import lombok.Builder;
 import lombok.Data;
