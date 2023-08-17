@@ -152,7 +152,7 @@ const OnboardingPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
+      `http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
