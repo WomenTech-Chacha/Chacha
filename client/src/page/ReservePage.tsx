@@ -249,7 +249,7 @@ const ReservePage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `http://ws.bus.go.kr/api/rest/arrive/getLowArrInfoByStId?${queryParams.toString()}`
+      `https://ws.bus.go.kr/api/rest/arrive/getLowArrInfoByStId?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {

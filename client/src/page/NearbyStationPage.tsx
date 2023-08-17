@@ -58,7 +58,7 @@ const NearbyStationPage = () => {
     const map = new kakao.maps.Map(mapContainer, mapOptions);
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         let lat = position.coords.latitude,
           lon = position.coords.longitude;
 
@@ -83,7 +83,7 @@ const NearbyStationPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `http://ws.bus.go.kr/api/rest/stationinfo/getStationByPos?${queryParams.toString()}`
+      `https://ws.bus.go.kr/api/rest/stationinfo/getStationByPos?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -126,7 +126,7 @@ const NearbyStationPage = () => {
               makeOutListener(infowindow)
             );
 
-            kakao.maps.event.addListener(marker, "click", function() {
+            kakao.maps.event.addListener(marker, "click", function () {
               selectedMarker.current = marker;
               console.log(stations[i].stationId);
               handleStationClick(stations[i].stationId);
@@ -141,14 +141,14 @@ const NearbyStationPage = () => {
       });
 
     function makeOverListener(map: any, marker: any, infowindow: any) {
-      return function() {
+      return function () {
         infowindow.open(map, marker);
       };
     }
 
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다
     function makeOutListener(infowindow: any) {
-      return function() {
+      return function () {
         infowindow.close();
       };
     }

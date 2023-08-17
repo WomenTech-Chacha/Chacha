@@ -155,7 +155,7 @@ const SearchPage: React.FC = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?${queryParams.toString()}`
+      `https://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
