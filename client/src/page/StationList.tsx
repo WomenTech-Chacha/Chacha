@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 import Button from "../components/Button";
 import { getRouteType } from "../util/Types";
 
@@ -136,6 +138,7 @@ const StationList = () => {
   const [selectedDirection, setSelectedDirection] = useState<string | null>(
     null
   );
+  const [reservationId, setReservationId] = useState(""); // 예약 번호 상태
 
   useEffect(() => {
     if (busId) {
@@ -230,7 +233,9 @@ const StationList = () => {
     }
   };
 
-  const handleReservationClick = () => {
+  const selectedPersonType = localStorage.getItem("selectedTypes");
+
+  const handleReservationClick = async () => {
     // 2개를 선택한 값을 예약페이지로
     if (selectedStations.length === 2) {
       const startStation = selectedStations[0].stationNm;
@@ -271,6 +276,31 @@ const StationList = () => {
     } else {
       // 2개를 선택하지 않았다면
       alert("Please select exactly 2 stations.");
+    }
+
+    const reservationData = {
+      person_Type: selectedPersonType, // 선택한 유형(휠체어 등)
+      in_Stop_NM: selectedStations[0].stationNm, // 탑승 정류장명
+      bus_No: busNm, // 탑승 버스
+      out_Stop_NM: selectedStations[1].stationNm, // 하차 정류장명
+    };
+
+    try {
+      const response = await axios.post(
+        `http://13.125.208.107:8081/reservation`,
+        reservationData
+      );
+      const { reservation_Id } = response.data; // 서버에서 받은 예약 번호
+      setReservationId(reservation_Id);
+
+      if (response.status === 200) {
+        console.log("Reservation submitted successfully");
+        localStorage.setItem("reservation_Id", reservation_Id);
+      } else {
+        console.error("Failed to submit reservation");
+      }
+    } catch (error) {
+      console.error("Error submitting reservation:", error);
     }
   };
 
