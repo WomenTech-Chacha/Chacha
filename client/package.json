@@ -18,7 +18,7 @@
     "web-vitals": "^2.1.4",
     "xml2js-promise": "^0.0.2"
   },
-  "proxy": "http://13.125.208.107:8081/test",
+  "proxy": "http://13.125.208.107:8081/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

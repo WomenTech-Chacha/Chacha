@@ -41,8 +41,6 @@ interface StationItem {
   stationId: string;
   gpsX: string;
   gpsY: string;
-  //   isBusLocation: boolean;
-  //   isMoving: boolean;
 }
 
 const NearbyStationPage = () => {
@@ -96,14 +94,9 @@ const NearbyStationPage = () => {
           setStationList(stations);
 
           const markerImage = new kakao.maps.MarkerImage(
-            `${process.env.PUBLIC_URL}/busMarker.png`,
+            `${process.env.PUBLIC_URL}/selected-marker.png`,
             new kakao.maps.Size(24, 35)
           );
-          const SelectedMarkerImage = new kakao.maps.MarkerImage(
-            `${process.env.PUBLIC_URL}/selectedMarker.png`,
-            new kakao.maps.Size(24, 35)
-          );
-
           // 정류장 데이터를 반복하여 마커를 추가
           for (let i = 0; i < stations.length; i++) {
             const latlng = new kakao.maps.LatLng(
@@ -134,13 +127,6 @@ const NearbyStationPage = () => {
             );
 
             kakao.maps.event.addListener(marker, "click", function() {
-              if (!selectedMarker || selectedMarker !== marker) {
-                // 클릭된 마커 객체가 null이 아니면
-                // 클릭된 마커의 이미지를 기본 이미지로 변경하고
-                !!selectedMarker && marker.setImage(markerImage);
-                // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-                marker.setImage(SelectedMarkerImage);
-              }
               selectedMarker.current = marker;
               console.log(stations[i].stationId);
               handleStationClick(stations[i].stationId);

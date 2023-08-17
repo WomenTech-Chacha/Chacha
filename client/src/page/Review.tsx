@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 import Button from "../components/Button";
 import StarRating from "../components/StarRating";
 
@@ -114,11 +116,27 @@ const Label = styled.label`
   margin: 5px 0;
 `;
 
+const ButtonWrapper = styled.div`
+  bottom: 10px;
+  width: 100%;
+  height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도를 조절 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+`;
+
 const Review = () => {
   const navigate = useNavigate();
+
+  const [rating, setRating] = useState(0);
   const [satisfactions, setSatisfactions] = useState<string[]>([]);
   const [dissatisfactions, setDissatisfactions] = useState<string[]>([]);
   const [reservationHistory, setReservationHistory] = useState<any>(null);
+
+  const reservationId = JSON.parse(
+    localStorage.getItem("reservation_Id") || "[]"
+  );
 
   useEffect(() => {
     const storedHistory = localStorage.getItem("reservationHistories");
@@ -128,6 +146,49 @@ const Review = () => {
       console.log(historyData);
     }
   }, []);
+
+  const sendDataToServer = async (data: any) => {
+    try {
+      const response = await axios.post(
+        "http://13.125.208.107:8081/review",
+        data
+      );
+
+      if (response.status === 200) {
+        console.log("Review submitted successfully");
+      } else {
+        console.error("Failed to submit review");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+
+  const handleSubmit = () => {
+    const reviewData = {
+      satis: JSON.stringify(satisfactions),
+      dissatis: JSON.stringify(dissatisfactions),
+      score: rating,
+      review_Id: reservationId,
+    };
+
+    sendDataToServer(reviewData);
+    if (
+      !confirm(
+        "만족: " +
+          satisfactions +
+          "\n불만족: " +
+          dissatisfactions +
+          "\n제출하시겠습니까?"
+      )
+    ) {
+      // 아니오 일 경우
+      setSatisfactions([]);
+      setDissatisfactions([]);
+    } else {
+      navigate("/reserve-page");
+    }
+  };
 
   const handleSatisfactionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -150,7 +211,7 @@ const Review = () => {
   };
 
   const handleHome = () => {
-    navigate("/search-page");
+    navigate("/search");
   };
 
   return (
@@ -167,7 +228,7 @@ const Review = () => {
           </StationNm>
         </RecentUsageText>
       )}
-      <StarRating />
+      <StarRating onRatingChange={(rating: number) => setRating(rating)} />
       <ReviewWrapper>
         <ReviewSection className="satisfaction">
           <h2>버스 이용 시 만족 사항</h2>
@@ -260,28 +321,22 @@ const Review = () => {
             기타
           </Label>
         </ReviewSection>
-        <Button
-          width="280px"
-          height="60px"
-          buttonColor="indigo"
-          fontColor="white"
-          fontSize="22px"
-          borderRadius="40px"
-          onClick={() =>
-            alert(
-              "만족: " +
-                satisfactions +
-                "\n불만족: " +
-                dissatisfactions +
-                "\n제출하시겠습니까?"
-            )
-          }
-        >
-          작성 완료
-        </Button>
-        <Button fontSize="16px" onClick={handleHome}>
-          홈으로
-        </Button>
+        <ButtonWrapper>
+          <Button
+            width="280px"
+            height="60px"
+            buttonColor="indigo"
+            fontColor="white"
+            fontSize="22px"
+            borderRadius="40px"
+            onClick={handleSubmit}
+          >
+            작성 완료
+          </Button>
+          <Button fontSize="16px" onClick={handleHome}>
+            홈으로
+          </Button>
+        </ButtonWrapper>
       </ReviewWrapper>
     </ReviewContainer>
   );

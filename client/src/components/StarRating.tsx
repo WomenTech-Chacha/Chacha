@@ -18,13 +18,19 @@ const StarIcon = styled.img`
     filter: grayscale(0); /* 이미지 색상 변경 */
   }
 `;
+
+interface StarRatingProps {
+  onRatingChange: (rating: number) => void; // 새로 추가한 prop
+}
 const stars = `${process.env.PUBLIC_URL}/star.svg`;
 const graystars = `${process.env.PUBLIC_URL}/gray-star.svg`;
-const StarRating = () => {
+
+const StarRating: React.FC<StarRatingProps> = (props) => {
   const [rating, setRating] = useState(0); // 별점을 상태로 관리
 
   const handleStarClick = (selectedRating: number) => {
     setRating(selectedRating);
+    props.onRatingChange(selectedRating);
   };
 
   return (
