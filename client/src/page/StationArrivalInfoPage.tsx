@@ -1,5 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../components/Button";
+import { getRouteType } from "../util/Types";
+
+const HeaderContainer = styled.div`
+  top: 20px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const HeaderText = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 34px;
+  color: #9b9b9b;
+`;
+
+const BusText = styled.div`
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 34px;
+  color: #003f63;
+`;
+
+const BusListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const BusItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 15px 8px 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+`;
+
+const BusNumber = styled.div`
+  font-weight: 500;
+  font-size: 18px;
+  color: #003f63;
+`;
+
+const BusType = styled.div`
+  font-weight: 500;
+  font-size: 14px;
+  color: #9b9b9b;
+`;
+
+const ButtonSpan = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+`;
+
+const Notice = styled.div`
+  font-size: 14px;
+`;
 
 const API_KEY =
   "qeY/9Oi46a3oF+Go8FTjDu6Qw6/Seu+ULoQ6Anw4E5Ob1AUuYAd6sBzKkxiptwWuxwLfC9UyLcoIQc6jsq6Iuw==";
@@ -60,35 +126,15 @@ const StationArrivalInfoPage = () => {
       });
   };
 
-  const getRouteType = (routeType: string) => {
-    switch (routeType) {
-      case "1":
-        return "공항";
-      case "2":
-        return "마을";
-      case "3":
-        return "간선";
-      case "4":
-        return "지선";
-      case "5":
-        return "순환";
-      case "6":
-        return "광역";
-      case "7":
-        return "인천";
-      case "8":
-        return "경기";
-      case "9":
-        return "폐지";
-      case "0":
-        return "공용";
-      default:
-        return "";
-    }
-  };
-
-  const handleBusSelection = (busId: string, stId: string, plainNo: string) => {
-    navigate(`/bus-stops?busId=${busId}&stId=${stId}&plainNo=${plainNo}`);
+  const handleBusSelection = (
+    busId: string,
+    stId: string,
+    plainNo: string,
+    routeType: string
+  ) => {
+    navigate(
+      `/bus-stops?busId=${busId}&stId=${stId}&plainNo=${plainNo}&routeType=${routeType}`
+    );
   };
 
   const verifyMessage = (value: string) => {
@@ -112,35 +158,63 @@ const StationArrivalInfoPage = () => {
 
   return (
     <div>
-      <h1>{stNm}</h1>
+      <HeaderContainer>
+        <HeaderText>버스 선택</HeaderText>
+        <BusText>{stNm}</BusText>
+      </HeaderContainer>
       {arrivalInfo.length > 0 ? (
-        <ul>
+        <BusListWrapper>
           {arrivalInfo.map((info, index) => (
-            <li key={index}>
-              {info.busRouteAbrv} | {getRouteType(info.routeType)} |
-              {info.arrmsg1}
-              <button
-                onClick={() =>
-                  handleBusSelection(info.busRouteId, info.stId, info.plainNo1)
-                }
-                disabled={!verifyMessage(info.arrmsg1)}
-              >
-                선택
-              </button>
-              | {info.arrmsg2}
-              <button
-                onClick={() =>
-                  handleBusSelection(info.busRouteId, info.stId, info.plainNo2)
-                }
-                disabled={!verifyMessage(info.arrmsg2)}
-              >
-                선택
-              </button>
-            </li>
+            <BusItem key={index}>
+              <div>
+                <BusNumber>{info.busRouteAbrv}</BusNumber>
+                <BusType>{getRouteType(info.routeType)}</BusType>
+              </div>
+              <ButtonSpan>
+                <Notice>{info.arrmsg1}</Notice>
+                <Button
+                  width="56px"
+                  height="28px"
+                  buttonColor="green"
+                  fontColor="white"
+                  fontSize="14px"
+                  onClick={() =>
+                    handleBusSelection(
+                      info.busRouteId,
+                      info.stId,
+                      info.plainNo1,
+                      info.routeType
+                    )
+                  }
+                  disabled={!verifyMessage(info.arrmsg1)}
+                >
+                  선택
+                </Button>
+                <Notice>{info.arrmsg2}</Notice>
+                <Button
+                  width="56px"
+                  height="28px"
+                  buttonColor="green"
+                  fontColor="white"
+                  fontSize="14px"
+                  onClick={() =>
+                    handleBusSelection(
+                      info.busRouteId,
+                      info.stId,
+                      info.plainNo2,
+                      info.routeType
+                    )
+                  }
+                  disabled={!verifyMessage(info.arrmsg2)}
+                >
+                  선택
+                </Button>
+              </ButtonSpan>
+            </BusItem>
           ))}
-        </ul>
+        </BusListWrapper>
       ) : (
-        <p>No arrival information available.</p>
+        <p>도착예정 정보가 없습니다.</p>
       )}
     </div>
   );
