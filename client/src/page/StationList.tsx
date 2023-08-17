@@ -1,6 +1,106 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/Button";
+import { getRouteType } from "../util/Types";
+
+const Container = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.div`
+  font-size: 18px;
+  margin-bottom: 16px;
+`;
+const HeaderContainer = styled.div`
+  top: 20px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const HeaderText = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 34px;
+  color: #9b9b9b;
+`;
+
+const SubHeaderText = styled.div`
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 34px;
+  color: #003f63;
+`;
+
+const DirectionButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const DirectionButton = styled.button`
+  background-color: #ededed;
+  color: #111111;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.selected {
+    background-color: #0080ca;
+    color: #ffffff;
+  }
+
+  &:hover {
+    background-color: #005e9c;
+    color: #ffffff;
+  }
+`;
+
+const StationListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 130px;
+`;
+
+const StationItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+
+  &.selected {
+    background-color: #34c34d;
+    border-color: #34c34d;
+    color: #ffffff;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도 조절 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+`;
 
 const API_KEY =
   "qeY/9Oi46a3oF+Go8FTjDu6Qw6/Seu+ULoQ6Anw4E5Ob1AUuYAd6sBzKkxiptwWuxwLfC9UyLcoIQc6jsq6Iuw==";
@@ -12,13 +112,6 @@ interface StationItem {
   station: string;
   busRouteAbrv: string;
   seq: string;
-
-  //   isBusLocation: boolean;
-  //   isMoving: boolean;
-}
-
-interface SelectedStationItemProps {
-  isSelected: boolean;
 }
 
 interface BusLocationData {
@@ -27,20 +120,15 @@ interface BusLocationData {
   sectOrd: string;
 }
 
-const SelectedStationItem = styled.div<SelectedStationItemProps>`
-  // 선택된 항목을 위한 스타일
-  background-color: ${(props) => (props.isSelected ? "#007bff" : "#ffffff")};
-  color: ${(props) => (props.isSelected ? "#ffffff" : "#000000")};
-
-  cursor: pointer;
-`;
-
 const StationList = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const busId = new URLSearchParams(location.search).get("busId");
   const stId = new URLSearchParams(location.search).get("stId");
   const plainNo = new URLSearchParams(location.search).get("plainNo");
+  const routeType = new URLSearchParams(location.search).get(
+    "routeType"
+  ) as string;
   const [stationList, setStationList] = useState<StationItem[]>([]);
   const [busNm, setBusNm] = useState<string>("");
   const [selectedStations, setSelectedStations] = useState<StationItem[]>([]);
@@ -124,14 +212,14 @@ const StationList = () => {
   const handleStationClick = (station: StationItem) => {
     // 이미 선택된 역인지 확인
     const isStationSelected = selectedStations.some(
-      (selectedStation) => selectedStation.stationNo === station.stationNo
+      (selectedStation) => selectedStation.station === station.station
     );
 
     // 이미 선택된 것이라면 선택이 지워지게
     if (isStationSelected) {
       setSelectedStations((prevSelected) =>
         prevSelected.filter(
-          (selectedStation) => selectedStation.stationNo !== station.stationNo
+          (selectedStation) => selectedStation.station !== station.station
         )
       );
     } else {
@@ -150,8 +238,35 @@ const StationList = () => {
       const endStation = selectedStations[1].stationNm;
       const endStId = selectedStations[1].station;
       const busNumber = stationList[0].busRouteAbrv || "";
+      const arrSeq = selectedStations[1].seq;
+
+      const reservationHistory = {
+        direction: selectedDirection,
+        depStationName: startStation,
+        arrStationName: endStation,
+        depStationNo: selectedStations[0].stationNo,
+        arrStationNo: selectedStations[1].stationNo,
+        depStation: startStId,
+        arrStation: endStId,
+        busNumber: busNumber,
+        depSeq: selectedStations[0].seq,
+        arrSeq: arrSeq,
+        reservedDate: new Date(),
+        routeType: getRouteType(routeType),
+      };
+
+      // 로컬스토리지에 데이터 저장
+      const reservationHistories = JSON.parse(
+        localStorage.getItem("reservationHistories") || "[]"
+      );
+      reservationHistories.push(reservationHistory);
+      localStorage.setItem(
+        "reservationHistories",
+        JSON.stringify(reservationHistories)
+      );
+
       navigate(
-        `/reserve-page?busNumber=${busNumber}&startStation=${startStation}&startStId=${startStId}&endStation=${endStation}&endStId=${endStId}&plainNo=${plainNo}`
+        `/reserve-page?busNumber=${busNumber}&startStation=${startStation}&startStId=${startStId}&endStation=${endStation}&endStId=${endStId}&arrSeq=${arrSeq}&plainNo=${plainNo}`
       );
     } else {
       // 2개를 선택하지 않았다면
@@ -192,35 +307,59 @@ const StationList = () => {
   };
 
   return (
-    <div>
-      <h1>{busNm}번 버스</h1>
-      <div>
+    <Container>
+      <HeaderContainer>
+        <HeaderText>정류장 선택</HeaderText>
+        <SubHeaderText>승하차 정류장을 선택하세요</SubHeaderText>
+      </HeaderContainer>
+      <Title>
+        {getRouteType(routeType)}|{busNm}번 버스
+      </Title>
+      <DirectionButtons>
         {directionNames.map((direction, index) => (
-          <button key={index} onClick={() => handleDirectionClick(direction)}>
-            {direction} 방면
-          </button>
-        ))}
-      </div>
-      <div>
-        {mergedStationData.map((result, index) => (
-          <SelectedStationItem
+          <DirectionButton
             key={index}
+            onClick={() => handleDirectionClick(direction)}
+            className={direction === selectedDirection ? "selected" : ""}
+          >
+            {direction} 방면
+          </DirectionButton>
+        ))}
+      </DirectionButtons>
+      <StationListContainer>
+        {mergedStationData.map((result, index) => (
+          <StationItem
+            key={index}
+            className={
+              selectedStations.some(
+                (selectedStation) => selectedStation.station === result.station
+              )
+                ? "selected"
+                : ""
+            }
             onClick={() => handleStationClick(result)}
-            isSelected={selectedStations.some(
-              (selectedStation) =>
-                selectedStation.stationNo === result.stationNo
-            )}
           >
             {result.stationNm}
             {result.isMoving && " 🚌(이동중)"}
             {result.isBusLocation && " 🚌"}
-            <button>선택</button>
-          </SelectedStationItem>
+          </StationItem>
         ))}
-      </div>
-      <button onClick={handleReservationClick}>예약 하기</button>
-      <button onClick={handleResetClick}>다시선택하기</button>
-    </div>
+      </StationListContainer>
+      <ButtonWrapper>
+        <Button
+          width="280px"
+          height="60px"
+          buttonColor="indigo"
+          fontColor="white"
+          fontSize="22px"
+          borderRadius="40px"
+          onClick={handleReservationClick}
+        >
+          예약하기
+        </Button>
+        <Button onClick={handleResetClick}>다시선택하기</Button>
+      </ButtonWrapper>
+    </Container>
   );
 };
 

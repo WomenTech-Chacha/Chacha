@@ -1,5 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: "PretendardVariable", "Arial", "sans-serif";
+`;
+
+const HeaderContainer = styled.div`
+  top: 20px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const HeaderText = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 34px;
+  color: #9b9b9b;
+`;
+
+const SubHeaderText = styled.div`
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 34px;
+  color: #003f63;
+`;
 
 const { kakao } = window as any;
 const API_KEY =
@@ -140,8 +170,16 @@ const NearbyStationPage = () => {
       navigate(`/station-arrival-info?stId=${stationId}`);
     };
   };
-
-  return <div id="map" style={{ width: "100%", height: "500px" }} />;
+  return (
+    <Container>
+      {/* 스타일 컴포넌트로 생성한 스타일을 적용합니다 */}
+      <HeaderContainer>
+        <HeaderText>정류장 선택</HeaderText>
+        <SubHeaderText>원하는 정류장을 선택하세요</SubHeaderText>
+      </HeaderContainer>
+      <div id="map" style={{ width: "100%", height: "400px" }} />
+    </Container>
+  );
 };
 
 export default NearbyStationPage;
