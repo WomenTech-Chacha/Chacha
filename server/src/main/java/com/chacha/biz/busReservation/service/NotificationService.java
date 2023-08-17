@@ -13,19 +13,19 @@ public class NotificationService {
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
     private final EmitterRepository emitterRepository;
 
-    public SseEmitter BusReservation(int id){
+    public SseEmitter BusReservation(String id){
         SseEmitter emitter = createEmitter(id);
         sendToClient(id, "SseEmitter Created. user_ID= "+id);
         return emitter;
     }
 
     //서버의 이벤트를 클라이언트한테 보내는 메서드
-    public void notify(int userId, Object event) {
+    public void notify(String userId, Object event) {
         sendToClient(userId, event);
     }
 
     //이벤트 Emitter 생성
-    private SseEmitter createEmitter(int id) {
+    private SseEmitter createEmitter(String id) {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
         emitterRepository.save(id, emitter);
 
@@ -38,7 +38,7 @@ public class NotificationService {
     }
 
     //클라이언트에게 데이터 전송
-    private void sendToClient(int id, Object data) {
+    private void sendToClient(String id, Object data) {
         SseEmitter emitter = emitterRepository.get(id);
         if (emitter != null) {
             try {

@@ -20,7 +20,8 @@ public class ReviewController {
         ReviewEntity review = ReviewEntity.builder()
                 .review_Id(reviewDTO.getReview_Id())
                 .score(reviewDTO.getScore())
-                .content(reviewDTO.getContent())
+                .satis(reviewDTO.getSatis())
+                .dissatis(reviewDTO.getDissatis())
                 .build();
         reviewRepository.save(review);
 

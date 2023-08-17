@@ -15,16 +15,17 @@ public class ReviewEntity {
     @Id
     private Long review_Id;
     private float score;
-    @Column(length = 1000)
-    private String content;
+    private String satis;
+    private String dissatis;
     @CreationTimestamp
     private LocalDateTime write_Date;
 
     @Builder
-    public ReviewEntity(Long review_Id, float score, String content, LocalDateTime write_Date ){
+    public ReviewEntity(Long review_Id, float score, String satis, String dissatis, LocalDateTime write_Date ){
         this.review_Id = review_Id;
         this.score = score;
-        this.content = content;
+        this.satis = satis;
+        this.dissatis = dissatis;
         this.write_Date = write_Date;
     }
 }

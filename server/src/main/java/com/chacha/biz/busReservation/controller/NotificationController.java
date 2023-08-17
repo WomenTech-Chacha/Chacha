@@ -8,11 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +19,7 @@ public class NotificationController {
     private final BusReservationRepository busReservationRepository;
 
     @GetMapping(value = "/connection/{bus_no}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter emitterConnect(@PathVariable int bus_no){
+    public SseEmitter emitterConnect(@PathVariable String bus_no){
         //버스 번호로 연결
         return notificationService.BusReservation(bus_no);
     }

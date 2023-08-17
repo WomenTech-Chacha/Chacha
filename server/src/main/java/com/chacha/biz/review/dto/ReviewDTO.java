@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ReviewDTO {
     private Long review_Id;
     private float score;
-    private String content;
+    private String satis;
+    private String dissatis;
     private LocalDateTime write_Date;
 }
