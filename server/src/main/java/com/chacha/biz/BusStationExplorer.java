@@ -1,6 +1,6 @@
 package com.chacha.biz;
 
-import com.chacha.biz.dto.BusStationDTO;
+import com.chacha.biz.busStation.dto.BusStationDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -70,11 +70,11 @@ public class BusStationExplorer {
             BusStationDTO busStationDTO = new BusStationDTO();
             JSONObject object = (JSONObject) jsonArray.get(i);
 
-            busStationDTO.setSTOP_NO(Integer.parseInt(object.get("STOP_NO").toString()));
+            //busStationDTO.setSTOP_NO(Integer.parseInt(object.get("STOP_NO").toString()));
             busStationDTO.setSTOP_NM(object.get("STOP_NM").toString());
-            busStationDTO.setXCODE(Float.valueOf(object.get("XCODE").toString()));
-            busStationDTO.setYCODE(Float.valueOf(object.get("YCODE").toString()));
-            busStationDTO.setNODE_ID(Integer.parseInt(object.get("NODE_ID").toString()));
+            //busStationDTO.setXCODE(Float.valueOf(object.get("XCODE").toString()));
+            //busStationDTO.setYCODE(Float.valueOf(object.get("YCODE").toString()));
+            //busStationDTO.setNODE_ID(Integer.parseInt(object.get("NODE_ID").toString()));
             busStationDTO.setSTOP_TYPE(object.get("STOP_TYPE").toString());
 
             list.add(busStationDTO);
