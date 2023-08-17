@@ -30,10 +30,13 @@ const SuccessMessage = styled.div`
 `;
 
 const CurrentTime = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 350px;
-  text-align: center;
   margin-bottom: 10px;
   border-top: 2px solid #ededed;
   border-bottom: 2px solid #ededed;
@@ -213,6 +216,7 @@ const ReservePage = () => {
   const endLogo = `${process.env.PUBLIC_URL}/end-station.svg`;
   const startBox = `${process.env.PUBLIC_URL}/departure.svg`;
   const endBox = `${process.env.PUBLIC_URL}/arrival.svg`;
+  const clock = `${process.env.PUBLIC_URL}/clock.svg`;
 
   const [arrivalInfo, setArrivalInfo] = useState<ArrivalInfo[]>([]);
   const [depBusInfo, setDepBusInfo] = useState<DepBusInfo[]>([]);
@@ -324,11 +328,17 @@ const ReservePage = () => {
       {depBusInfo.length > 0 ? (
         <>
           <SuccessMessage>성공적으로 예약했어요</SuccessMessage>
-          <CurrentTime>현재 시각 {getCurrentDateTime()}</CurrentTime>
+          <CurrentTime>
+            <img src={clock} alt="시계아이콘" />
+            현재 시각 {getCurrentDateTime()}
+          </CurrentTime>
         </>
       ) : (
         <>
-          <CurrentTime>현재 시각 {getCurrentDateTime()}</CurrentTime>
+          <CurrentTime>
+            <img src={clock} alt="시계아이콘" />
+            현재 시각 {getCurrentDateTime()}
+          </CurrentTime>
         </>
       )}
 
