@@ -10,15 +10,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @RequiredArgsConstructor
 public class EmitterRepository {
-    private final Map<Integer, SseEmitter> emitters = new ConcurrentHashMap<>();
-    public void save(int id, SseEmitter emitter){
+    private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    public void save(String id, SseEmitter emitter){
         emitters.put(id, emitter);
     }
-    public void deleteById(int id){
+    public void deleteById(String id){
         emitters.remove(id);
     }
 
-    public SseEmitter get(int id){
+    public SseEmitter get(String id){
         return emitters.get(id);
     }
 }

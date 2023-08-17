@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @NoArgsConstructor
 @Entity(name="bus_reservation")
@@ -22,11 +20,11 @@ public class BusReservationEntity {
     @CreationTimestamp
     private LocalDateTime ride_Date;
     private String in_Stop_NM;
-    private int bus_No;
+    private String bus_No;
     private String out_Stop_NM;
 
     @Builder
-    public BusReservationEntity(Long reservation_Id, String person_Type, LocalDateTime ride_Date, String in_Stop_NM, int bus_No, String out_Stop_NM){
+    public BusReservationEntity(Long reservation_Id, String person_Type, LocalDateTime ride_Date, String in_Stop_NM, String bus_No, String out_Stop_NM){
         this.reservation_Id = reservation_Id;
         this.person_Type = person_Type;
         this.ride_Date = ride_Date;
