@@ -83,7 +83,7 @@ const NearbyStationPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://ws.bus.go.kr/api/rest/stationinfo/getStationByPos?${queryParams.toString()}`
+      `http://ws.bus.go.kr/api/rest/stationinfo/getStationByPos?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
