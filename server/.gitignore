@@ -36,3 +36,5 @@ src/main/**/application.properties
 
 ### VS Code ###
 .vscode/
+
+/src/main/frontend/
