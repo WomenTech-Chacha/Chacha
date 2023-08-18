@@ -86,9 +86,15 @@ const StationItem = styled.div`
     background-color: #f2f2f2;
   }
 
-  &.selected {
+  &.start-station {
     background-color: #34c34d;
     border-color: #34c34d;
+    color: #ffffff;
+  }
+
+  &.end-station {
+    background-color: #f9a825;
+    border-color: #f9a825;
     color: #ffffff;
   }
 `;
@@ -133,7 +139,11 @@ const StationList = () => {
   ) as string;
   const [stationList, setStationList] = useState<StationItem[]>([]);
   const [busNm, setBusNm] = useState<string>("");
-  const [selectedStations, setSelectedStations] = useState<StationItem[]>([]);
+  const [selectStartStation, setSelectStartStation] =
+    useState<StationItem | null>(null);
+  const [selectEndStation, setSelectEndStation] = useState<StationItem | null>(
+    null
+  );
   const [busLocationData, setBusLocationData] = useState<BusLocationData[]>([]);
   const [selectedDirection, setSelectedDirection] = useState<string | null>(
     null
@@ -154,7 +164,7 @@ const StationList = () => {
       );
       if (stationFind) {
         setSelectedDirection(stationFind.direction);
-        setSelectedStations([stationFind]);
+        setSelectStartStation(stationFind);
       }
     }
   }, [stId, stationList]);
@@ -213,23 +223,24 @@ const StationList = () => {
   };
 
   const handleStationClick = (station: StationItem) => {
-    // 이미 선택된 역인지 확인
-    const isStationSelected = selectedStations.some(
-      (selectedStation) => selectedStation.station === station.station
-    );
+    // 이미 선택된 출발역이면 선택 취소
+    if (selectStartStation && selectStartStation.station === station.station) {
+      setSelectStartStation(null);
+      return;
+    }
 
-    // 이미 선택된 것이라면 선택이 지워지게
-    if (isStationSelected) {
-      setSelectedStations((prevSelected) =>
-        prevSelected.filter(
-          (selectedStation) => selectedStation.station !== station.station
-        )
-      );
-    } else {
-      //역이 아직 선택되어 있지 않고 선택된 역이 2개 미만인 경우 선택에 추가
-      if (selectedStations.length < 2) {
-        setSelectedStations((prevSelected) => [...prevSelected, station]);
-      }
+    // 이미 선택된 도착역이면 선택 취소
+    if (selectEndStation && selectEndStation.station === station.station) {
+      setSelectEndStation(null);
+      return;
+    }
+
+    // 출발역이 선택되지 않은 상태라면 출발역으로 선택
+    if (!selectStartStation) {
+      setSelectStartStation(station);
+    } else if (!selectEndStation) {
+      // 출발역은 선택되어 있으나 도착역이 선택되지 않은 상태라면 도착역으로 선택
+      setSelectEndStation(station);
     }
   };
 
@@ -237,24 +248,25 @@ const StationList = () => {
 
   const handleReservationClick = async () => {
     // 2개를 선택한 값을 예약페이지로
-    if (selectedStations.length === 2) {
-      const startStation = selectedStations[0].stationNm;
-      const startStId = selectedStations[0].station;
-      const endStation = selectedStations[1].stationNm;
-      const endStId = selectedStations[1].station;
+    if (selectStartStation && selectEndStation) {
+      // 출발과 도착 정류장이 선택되었을 때만 예약 페이지로 이동
+      const startStation = selectStartStation.stationNm;
+      const startStId = selectStartStation.station;
+      const endStation = selectEndStation.stationNm;
+      const endStId = selectEndStation.station;
       const busNumber = stationList[0].busRouteAbrv || "";
-      const arrSeq = selectedStations[1].seq;
+      const arrSeq = selectEndStation.seq;
 
       const reservationHistory = {
         direction: selectedDirection,
         depStationName: startStation,
         arrStationName: endStation,
-        depStationNo: selectedStations[0].stationNo,
-        arrStationNo: selectedStations[1].stationNo,
+        depStationNo: selectStartStation.stationNo,
+        arrStationNo: selectEndStation.stationNo,
         depStation: startStId,
         arrStation: endStId,
         busNumber: busNumber,
-        depSeq: selectedStations[0].seq,
+        depSeq: selectStartStation.seq,
         arrSeq: arrSeq,
         reservedDate: new Date(),
         routeType: getRouteType(routeType),
@@ -275,14 +287,14 @@ const StationList = () => {
       );
     } else {
       // 2개를 선택하지 않았다면
-      alert("Please select exactly 2 stations.");
+      alert("출발과 도착 정류장을 모두 선택해주세요");
     }
 
     const reservationData = {
       person_Type: selectedPersonType, // 선택한 유형(휠체어 등)
-      in_Stop_NM: selectedStations[0].stationNm, // 탑승 정류장명
+      in_Stop_NM: selectStartStation && selectStartStation.stationNm, // 탑승 정류장명
       bus_No: busNm, // 탑승 버스
-      out_Stop_NM: selectedStations[1].stationNm, // 하차 정류장명
+      out_Stop_NM: selectEndStation && selectEndStation.stationNm, // 하차 정류장명
     };
 
     try {
@@ -305,7 +317,8 @@ const StationList = () => {
   };
 
   const handleResetClick = () => {
-    setSelectedStations([]);
+    setSelectStartStation(null);
+    setSelectEndStation(null);
   };
 
   const filteredStations = selectedDirection
@@ -360,13 +373,18 @@ const StationList = () => {
         {mergedStationData.map((result, index) => (
           <StationItem
             key={index}
-            className={
-              selectedStations.some(
-                (selectedStation) => selectedStation.station === result.station
-              )
-                ? "selected"
-                : ""
-            }
+            className={`
+    ${
+      selectStartStation && selectStartStation.station === result.station
+        ? "start-station"
+        : ""
+    }
+    ${
+      selectEndStation && selectEndStation.station === result.station
+        ? "end-station"
+        : ""
+    }
+  `}
             onClick={() => handleStationClick(result)}
           >
             {result.stationNm}
