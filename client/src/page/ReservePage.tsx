@@ -130,7 +130,7 @@ const NoReserveTitle = styled.div`
   margin-bottom: 30px;
 `;
 const CurrentData = styled.div`
-  width: 400px;
+  width: 350px;
   margin-top: 30px;
   border-top: 2px solid #dadada;
 `;
