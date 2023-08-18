@@ -4,7 +4,7 @@ import useInterval from "../util/useInterval";
 import styled from "styled-components";
 import { getCurrentDateTime, getRouteType } from "../util/Types";
 import Button from "../components/Button";
-
+import { formatDate } from "../components/FormDate";
 const ReservationContainer = styled.div`
   display: flex;
   align-items: center;
@@ -102,13 +102,15 @@ const StationName = styled.div`
 
 const ButtonWrapper = styled.div`
   position: fixed;
-  bottom: 30px;
   width: 100%;
   height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도를 조절하세요 */
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  background-color: #ffffff;
+  bottom: 0;
+  padding-top: 10px;
 `;
 
 const ButtonSpan = styled.span`
@@ -119,11 +121,13 @@ const ButtonSpan = styled.span`
 
 const NoReserveTitle = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
   font-size: 18px;
   color: #9b9b9b;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 const CurrentData = styled.div`
   width: 400px;
@@ -300,6 +304,10 @@ const ReservePage = () => {
     );
   };
 
+  const handleHome = () => {
+    navigate("/search");
+  };
+
   useInterval(() => {
     getLowArrivalInfo();
   }, 60000);
@@ -345,7 +353,13 @@ const ReservePage = () => {
 
       {depBusInfo.length === 0 ? (
         <div>
-          <NoReserveTitle>현재 예약 내역이 없습니다</NoReserveTitle>
+          <NoReserveTitle>
+            현재 예약 내역이 없습니다
+            <Button fontSize="14px" fontColor="gray" onClick={handleHome}>
+              홈으로
+            </Button>
+          </NoReserveTitle>
+
           <CurrentData className="current-data">
             {recentUsageData ? (
               <RecentUsageTitle>지난 예약내역</RecentUsageTitle>
@@ -353,7 +367,7 @@ const ReservePage = () => {
               <></>
             )}
             {recentUsageData.length > 0 &&
-              recentUsageData.map((value: any, index: any) => (
+              recentUsageData.reverse().map((value: any, index: any) => (
                 <RecentUsageItem key={index}>
                   <RecentUsageText>
                     <StationNm>
@@ -361,7 +375,8 @@ const ReservePage = () => {
                     </StationNm>
                     <br />
                     <BusNumber>
-                      버스 번호: {value.busNumber} 방향: {value.direction}
+                      버스 번호: {value.busNumber} | 방향: {value.direction} |
+                      이용일: {formatDate(value.reservedDate)}
                     </BusNumber>
                   </RecentUsageText>
                 </RecentUsageItem>

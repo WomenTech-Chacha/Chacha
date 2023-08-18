@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useInterval from "../util/useInterval";
 import styled from "styled-components";
@@ -89,13 +89,15 @@ const Status = styled.div`
 
 const ButtonWrapper = styled.div`
   position: fixed;
-  bottom: 10px;
   width: 100%;
   height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도를 조절 */
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  background-color: #ffffff;
+  bottom: 0;
+  padding-top: 10px;
 `;
 
 interface StationItem {
@@ -124,6 +126,7 @@ const POLLING_INTERVAL = 60000;
 const OnboardingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const selectedStationRef = useRef<null | HTMLDivElement>(null);
   const queryParams = new URLSearchParams(location.search);
   const busRouteId = queryParams.get("busRouteId"); //출발 정류장 고유아이디
   const arrStId = queryParams.get("arrStId"); //도착 정류장 고유아이디
@@ -159,6 +162,12 @@ const OnboardingPage = () => {
       if (matchingStation) {
         setSelectedDirection(matchingStation.direction);
       }
+    }
+    if (selectedStationRef.current) {
+      selectedStationRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
   }, [busPositions, stationList, plainNo]);
 
@@ -312,6 +321,7 @@ const OnboardingPage = () => {
 
           return (
             <StationItem
+              ref={busIcon ? selectedStationRef : null}
               key={index}
               className={`${busIcon ? "start-station" : ""} ${
                 isArrivalStation ? "end-station" : ""

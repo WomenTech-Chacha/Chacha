@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -89,25 +89,27 @@ const StationItem = styled.div`
   &.start-station {
     background-color: #34c34d;
     border-color: #34c34d;
-    color: #ffffff;
+    color: #f8f8f8;
   }
 
   &.end-station {
     background-color: #f9a825;
     border-color: #f9a825;
-    color: #ffffff;
+    color: #f8f8f8;
   }
 `;
 
 const ButtonWrapper = styled.div`
   position: fixed;
-  bottom: 10px;
   width: 100%;
   height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도 조절 */
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  background-color: #ffffff;
+  bottom: 0;
+  padding-top: 10px;
 `;
 
 const API_KEY =
@@ -131,6 +133,7 @@ interface BusLocationData {
 const StationList = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const busId = new URLSearchParams(location.search).get("busId");
   const stId = new URLSearchParams(location.search).get("stId");
   const plainNo = new URLSearchParams(location.search).get("plainNo");

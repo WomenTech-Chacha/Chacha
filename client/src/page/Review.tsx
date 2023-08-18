@@ -117,7 +117,6 @@ const Label = styled.label`
 `;
 
 const ButtonWrapper = styled.div`
-  bottom: 10px;
   width: 100%;
   height: 100px; /* 높이를 조절해서 리스트가 가려지는 정도를 조절 */
   display: flex;

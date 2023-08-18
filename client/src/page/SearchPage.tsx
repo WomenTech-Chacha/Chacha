@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { palette } from "../styles/palette";
 import { getRouteType } from "../util/Types";
-
+import { formatDate } from "../components/FormDate";
 const SearchPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,9 +29,10 @@ const SearchContainer = styled.div`
 `;
 const SearchInput = styled.div`
   display: flex;
+  gap: 10px;
   input {
     box-shadow: none;
-    width: 300px;
+    width: 280px;
     height: 52px;
     border-radius: 40px;
     border: 2px solid #dadada;
@@ -39,8 +40,15 @@ const SearchInput = styled.div`
     font-size: 16px;
   }
 `;
+const NearbyButtonWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  div {
+    text-align: left;
+  }
+`;
 const CurrentData = styled.div`
-  width: 400px;
+  width: 350px;
   margin-top: 30px;
   border-top: 2px solid #dadada;
 `;
@@ -193,14 +201,6 @@ const SearchPage: React.FC = () => {
     navigate(`/nearby-stops`);
   };
 
-  function formatDate(date: any) {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    return new Date(date).toLocaleDateString(
-      undefined,
-      options as Intl.DateTimeFormatOptions
-    );
-  }
-
   return (
     <SearchPageContainer>
       <HeadContainer>
@@ -229,6 +229,7 @@ const SearchPage: React.FC = () => {
             검색
           </Button>
         </SearchInput>
+
         <Button
           width="350px"
           height="200px"
@@ -241,8 +242,13 @@ const SearchPage: React.FC = () => {
           id="stationNameBtn"
           onClick={handleNearbyClick}
         >
-          내 근처 버스 정류장 찾기
-          <img src={nearbyStops} alt="버스정류장 로고" />
+          <NearbyButtonWrapper>
+            <div>
+              내 근처 <br />
+              버스 정류장 찾기
+            </div>
+            <img src={nearbyStops} alt="버스정류장 로고" />
+          </NearbyButtonWrapper>
         </Button>
       </SearchContainer>
       <SearchResults>
@@ -261,7 +267,7 @@ const SearchPage: React.FC = () => {
       </SearchResults>
       <CurrentData>
         <RecentUsageTitle>최근 이용내역</RecentUsageTitle>
-        {recentUsageData.map((value: any, index: number) => (
+        {recentUsageData.reverse().map((value: any, index: number) => (
           <RecentUsageItem key={index}>
             <RecentUsageText>
               <StationName>
