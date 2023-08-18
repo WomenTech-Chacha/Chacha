@@ -53,11 +53,11 @@ const DirectionButton = styled.button`
 `;
 const StationContainer = styled.div`
   margin-bottom: 130px;
+  width: 100%;
 `;
 const StationItem = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
   margin-bottom: 8px;
   padding-left: 10px;
   border: 1px solid #d9d9d9;
