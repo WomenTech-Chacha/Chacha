@@ -152,7 +152,7 @@ const OnboardingPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
+      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -177,7 +177,7 @@ const OnboardingPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
+      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
