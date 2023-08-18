@@ -63,11 +63,28 @@ const StationItem = styled.div`
   border: 1px solid #d9d9d9;
   border-radius: 4px;
 
-  &.selected {
+  &.start-station {
     background-color: #34c34d;
     border-color: #34c34d;
-    color: #ffffff;
+    color: #f8f8f8;
   }
+  &.end-station {
+    background-color: #f9a825;
+    border-color: #f9a825;
+    color: #f8f8f8;
+  }
+`;
+const StationWrapper = styled.div`
+  display: flex;
+  height: 30px;
+  align-items: center;
+  gap: 8px;
+`;
+const Status = styled.div`
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  color: #ededed;
 `;
 
 const ButtonWrapper = styled.div`
@@ -283,27 +300,44 @@ const OnboardingPage = () => {
           //     item.stationNm
           //   )
           // );
-          const busIcon = matchingBusPosition
-            ? matchingBusPosition.stopFlag === "1"
-              ? " 🚌 현재버스"
-              : " 🚌 현재버스(이동중)"
-            : "";
+          const busIcon = matchingBusPosition ? (
+            matchingBusPosition.stopFlag === "1" ? (
+              <Status>🚌 현재위치</Status>
+            ) : (
+              <Status>🚌 현재위치(이동중)</Status>
+            )
+          ) : (
+            ""
+          );
 
           return (
             <StationItem
               key={index}
-              className={busIcon || isArrivalStation ? "selected" : ""}
+              className={`${busIcon ? "start-station" : ""} ${
+                isArrivalStation ? "end-station" : ""
+              }`}
             >
-              <p>
+              <StationWrapper>
                 {station.stationNm}
                 {busIcon}
                 {isArrivalStation && (
                   <>
-                    🚌 도착
-                    <button onClick={handleEditClick}>변경</button>
+                    <Status>
+                      🚏 도착
+                      <Button
+                        width="40px"
+                        height="20px"
+                        buttonColor="lightgray"
+                        fontSize="14px"
+                        fontColor="black"
+                        onClick={handleEditClick}
+                      >
+                        변경
+                      </Button>
+                    </Status>
                   </>
                 )}
-              </p>
+              </StationWrapper>
             </StationItem>
           );
         })}

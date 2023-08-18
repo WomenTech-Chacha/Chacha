@@ -6,7 +6,6 @@ const StarRatingContainer = styled.div`
   align-items: center;
   margin-bottom: 10px;
   gap: 5px;
-  font-family: PretendardVariable, Arial, sans-serif;
 `;
 
 const StarIcon = styled.img`
