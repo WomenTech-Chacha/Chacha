@@ -5,7 +5,6 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: "PretendardVariable", "Arial", "sans-serif";
 `;
 
 const HeaderContainer = styled.div`
@@ -112,8 +111,13 @@ const NearbyStationPage = () => {
             });
 
             let infowindow = new kakao.maps.InfoWindow({
-              content: stations[i].stationNm, // 인포윈도우에 표시할 내용
+              content:
+                '<div style="padding: 5px; font-size: 16px;">' +
+                stations[i].stationNm +
+                "</div>", // 인포윈도우에 표시할 내용
             });
+
+            // '<div style="padding:5px;">stations[i].stationNm</div>',
 
             kakao.maps.event.addListener(
               marker,
@@ -163,7 +167,7 @@ const NearbyStationPage = () => {
         <HeaderText>정류장 선택</HeaderText>
         <SubHeaderText>원하는 정류장을 선택하세요</SubHeaderText>
       </HeaderContainer>
-      <div id="map" style={{ width: "100%", height: "400px" }} />
+      <div id="map" style={{ width: "100%", height: "500px" }} />
     </Container>
   );
 };

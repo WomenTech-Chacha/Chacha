@@ -126,8 +126,9 @@ const NoReserveTitle = styled.div`
   justify-content: center;
 `;
 const CurrentData = styled.div`
-  width: 100%;
-  left: 27px;
+  width: 400px;
+  margin-top: 30px;
+  border-top: 2px solid #dadada;
 `;
 const RecentUsageTitle = styled.p`
   font-weight: 500;

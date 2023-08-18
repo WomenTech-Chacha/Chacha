@@ -1,14 +1,35 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button"; // 파일 경로를 실제 파일 위치에 맞게 수정해주세요
+import Button from "../components/Button";
 
-// const HeadContainer = styled.div``;
+const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HeadContainer = styled.div`
+  align-items: center;
+  margin-top: 20px;
+  margin-right: 35px;
+
+  h2 {
+    font-size: 26px;
+    font-weight: 500;
+    color: #003f63;
+  }
+  div {
+    font-size: 18px;
+    font-weight: lighter;
+    color: #9b9b9b;
+  }
+`;
+
 const TypeSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
 `;
 
 const TypeButton = styled.div`
@@ -57,12 +78,12 @@ const TypeSelectPage = () => {
   };
 
   return (
-    <div>
-      <div>
-        <img src={smallLogo} alt="작은 로고" />
+    <SelectContainer>
+      <HeadContainer>
+        <img src={smallLogo} alt="작은 로고" width={64} height={28} />
         <h2>승차자 유형을 선택하세요</h2>
-        <p>버스기사님께 내 상황을 미리 전달해요</p>
-      </div>
+        <div>버스기사님께 내 상황을 미리 전달해요</div>
+      </HeadContainer>
       <TypeSelectContainer>
         <TypeButton>
           <Button
@@ -180,7 +201,7 @@ const TypeSelectPage = () => {
           </Button>
         )}
       </TypeSelectContainer>
-    </div>
+    </SelectContainer>
   );
 };
 

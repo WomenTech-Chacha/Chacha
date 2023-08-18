@@ -5,9 +5,16 @@ import Button from "../components/Button";
 import { palette } from "../styles/palette";
 import { getRouteType } from "../util/Types";
 
+const SearchPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const HeadContainer = styled.div`
-  margin-top: 30px;
-  margin-left: 27px;
+  align-items: center;
+  margin-top: 20px;
+  margin-right: 110px;
   h2 {
     font-weight: 500;
     font-style: normal;
@@ -33,17 +40,17 @@ const SearchInput = styled.div`
   }
 `;
 const CurrentData = styled.div`
-  width: 100%;
-  left: 27px;
+  width: 400px;
+  margin-top: 30px;
+  border-top: 2px solid #dadada;
 `;
 
 const RecentUsageTitle = styled.p`
   font-weight: 500;
   font-size: 14px;
-  line-height: 38px;
   color: #9b9b9b;
   opacity: 0.5;
-  margin-bottom: 10px;
+  margin: 20px 0 20px 0;
 `;
 
 const RecentUsageItem = styled.div`
@@ -88,19 +95,18 @@ const UsageDate = styled.span`
   color: #9b9b9b;
 `;
 
-const SearchResults = styled.ul`
+const SearchResults = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 27px;
+  width: 200px;
   gap: 8px;
+  margin-top: 20px;
 `;
 
-const SearchResultItem = styled.li`
+const SearchResultItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
@@ -111,6 +117,7 @@ const SelectButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: auto;
   width: 56px;
   height: 28px;
   background: #0080ca;
@@ -120,8 +127,6 @@ const SelectButton = styled.button`
 `;
 
 const SelectButtonText = styled.span`
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
@@ -197,7 +202,7 @@ const SearchPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <SearchPageContainer>
       <HeadContainer>
         <img src={smallLogo} alt="작은 로고" />
         <h2>
@@ -264,17 +269,15 @@ const SearchPage: React.FC = () => {
               </StationName>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <BusNumber>
-                  버스 번호: {value.busNumber} | 방향: {value.direction}
+                  버스 번호: {value.busNumber} | 방향: {value.direction} |
                 </BusNumber>
-                <UsageDate>
-                  | 이용일: {formatDate(value.reservedDate)}
-                </UsageDate>
+                <UsageDate> 이용일: {formatDate(value.reservedDate)}</UsageDate>
               </div>
             </RecentUsageText>
           </RecentUsageItem>
         ))}
       </CurrentData>
-    </div>
+    </SearchPageContainer>
   );
 };
 

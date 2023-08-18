@@ -94,8 +94,8 @@ const ReviewCheckbox = styled.input`
   -webkit-appearance: none;
   -moz-appearance: none;
   margin-right: 5px;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border: 2px solid #9b9b9b;
   border-radius: 50%;
   position: relative;
@@ -126,6 +126,11 @@ const ButtonWrapper = styled.div`
   align-items: center;
 `;
 
+const OtherInput = styled.input`
+  margin: 0 8px;
+  height: 25px;
+`;
+
 const Review = () => {
   const navigate = useNavigate();
 
@@ -133,6 +138,12 @@ const Review = () => {
   const [satisfactions, setSatisfactions] = useState<string[]>([]);
   const [dissatisfactions, setDissatisfactions] = useState<string[]>([]);
   const [reservationHistory, setReservationHistory] = useState<any>(null);
+  const [showOtherSatisfactionInput, setShowOtherSatisfactionInput] =
+    useState(false);
+  const [showOtherDissatisfactionInput, setShowOtherDissatisfactionInput] =
+    useState(false);
+  const [otherSatisfaction, setOtherSatisfaction] = useState("");
+  const [otherDissatisfaction, setOtherDissatisfaction] = useState("");
 
   const reservationId = JSON.parse(
     localStorage.getItem("reservation_Id") || "[]"
@@ -192,10 +203,15 @@ const Review = () => {
 
   const handleSatisfactionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (e.target.checked) {
-      setSatisfactions((prev) => [...prev, value]);
+    if (value === "기타") {
+      setShowOtherSatisfactionInput(e.target.checked);
     } else {
-      setSatisfactions((prev) => prev.filter((item) => item !== value));
+      if (e.target.checked) {
+        setSatisfactions((prev) => [...prev, value]);
+      } else {
+        setSatisfactions((prev) => prev.filter((item) => item !== value));
+      }
+      setShowOtherSatisfactionInput(false);
     }
   };
 
@@ -203,10 +219,15 @@ const Review = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    if (e.target.checked) {
-      setDissatisfactions((prev) => [...prev, value]);
+    if (value === "기타") {
+      setShowOtherDissatisfactionInput(e.target.checked);
     } else {
-      setDissatisfactions((prev) => prev.filter((item) => item !== value));
+      if (e.target.checked) {
+        setDissatisfactions((prev) => [...prev, value]);
+      } else {
+        setDissatisfactions((prev) => prev.filter((item) => item !== value));
+      }
+      setShowOtherDissatisfactionInput(false);
     }
   };
 
@@ -271,6 +292,32 @@ const Review = () => {
               onChange={handleSatisfactionChange}
             />
             기타
+            {showOtherSatisfactionInput && (
+              <Label>
+                <OtherInput
+                  type="text"
+                  placeholder="기타 사항 입력"
+                  value={otherSatisfaction}
+                  onChange={(e) => setOtherSatisfaction(e.target.value)}
+                />
+                <Button
+                  width="56px"
+                  height="28px"
+                  buttonColor="indigo"
+                  fontColor="white"
+                  fontSize="14px"
+                  onClick={() => {
+                    if (otherSatisfaction) {
+                      setSatisfactions((prev) => [...prev, otherSatisfaction]);
+                      setOtherSatisfaction("");
+                      setShowOtherSatisfactionInput(false);
+                    }
+                  }}
+                >
+                  추가
+                </Button>
+              </Label>
+            )}
           </Label>
         </ReviewSection>
         <ReviewSection className="dissatisfaction">
@@ -319,6 +366,35 @@ const Review = () => {
               onChange={handleDissatisfactionChange}
             />
             기타
+            {showOtherDissatisfactionInput && (
+              <Label>
+                <OtherInput
+                  type="text"
+                  placeholder="기타 사항 입력"
+                  value={otherDissatisfaction}
+                  onChange={(e) => setOtherDissatisfaction(e.target.value)}
+                />
+                <Button
+                  width="56px"
+                  height="28px"
+                  buttonColor="orange"
+                  fontColor="white"
+                  fontSize="14px"
+                  onClick={() => {
+                    if (otherDissatisfaction) {
+                      setDissatisfactions((prev) => [
+                        ...prev,
+                        otherDissatisfaction,
+                      ]);
+                      setOtherDissatisfaction("");
+                      setShowOtherDissatisfactionInput(false);
+                    }
+                  }}
+                >
+                  추가
+                </Button>
+              </Label>
+            )}
           </Label>
         </ReviewSection>
         <ButtonWrapper>
