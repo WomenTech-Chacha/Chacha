@@ -70,7 +70,7 @@ const TypeSelectPage = () => {
       localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
     }
 
-    if (confirm("승차자 유형: " + selectedTypes) === true) {
+    if (window.confirm("승차자 유형: " + selectedTypes) === true) {
       navigate("/search");
     } else {
       setSelectedTypes([]);

@@ -54,7 +54,7 @@ const DepBusWrapper = styled.div`
   text-align: center;
   color: #9b9b9b;
 `;
-const DepBusInfo = styled.div`
+const DepBusInfoWrapper = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 10px;
@@ -224,7 +224,7 @@ const ReservePage = () => {
   const clock = `${process.env.PUBLIC_URL}/clock.svg`;
 
   const [arrivalInfo, setArrivalInfo] = useState<ArrivalInfo[]>([]);
-  const [depBusInfo, setDepBusInfo] = useState<DepBusInfo[]>([]);
+  const [departureBusInfo, setDepartureBusInfo] = useState<DepBusInfo[]>([]);
   const [selectedVehId, setSelectedVehId] = useState("");
   const [selectedBusTime, setSelectedBusTime] = useState(false);
 
@@ -254,7 +254,7 @@ const ReservePage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/arrive/getLowArrInfoByStId?${queryParams.toString()}`
+      `https://chacha-test-proj.koyeb.app/http://ws.bus.go.kr/api/rest/arrive/getLowArrInfoByStId?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -266,23 +266,23 @@ const ReservePage = () => {
           const filteredDepBusInfo = departureList.filter(
             (info) => info.busRouteAbrv === busNumber
           );
-          setDepBusInfo(filteredDepBusInfo);
+          setDepartureBusInfo(filteredDepBusInfo);
           console.log("출발 버스 정보", filteredDepBusInfo);
         } else {
           setArrivalInfo([]);
-          setDepBusInfo([]);
+          setDepartureBusInfo([]);
         }
       })
       .catch((error) => {
         console.error("API request failed:", error);
         setArrivalInfo([]);
-        setDepBusInfo([]);
+        setDepartureBusInfo([]);
       });
   };
 
   const resetData = () => {
     setArrivalInfo([]);
-    setDepBusInfo([]);
+    setDepartureBusInfo([]);
   };
 
   const handleCancelClick = () => {
@@ -300,7 +300,7 @@ const ReservePage = () => {
 
   const handleBoardingClick = () => {
     navigate(
-      `/onboarding-page?busRouteId=${depBusInfo[0].busRouteId}&arrStId=${endStId}&plainNo=${selectedVehId}`
+      `/onboarding-page?busRouteId=${departureBusInfo[0].busRouteId}&arrStId=${endStId}&plainNo=${selectedVehId}`
     );
   };
 
@@ -334,7 +334,7 @@ const ReservePage = () => {
   return (
     <ReservationContainer>
       <Title>예약내역</Title>
-      {depBusInfo.length > 0 ? (
+      {departureBusInfo.length > 0 ? (
         <>
           <SuccessMessage>성공적으로 예약했어요</SuccessMessage>
           <CurrentTime>
@@ -351,7 +351,7 @@ const ReservePage = () => {
         </>
       )}
 
-      {depBusInfo.length === 0 ? (
+      {departureBusInfo.length === 0 ? (
         <div>
           <NoReserveTitle>
             현재 예약 내역이 없습니다
@@ -384,14 +384,14 @@ const ReservePage = () => {
           </CurrentData>
         </div>
       ) : (
-        depBusInfo.map((busInfo, index) => (
+        departureBusInfo.map((busInfo, index) => (
           <div key={index}>
             <DepBusWrapper>
               {getRouteType(busInfo.routeType)}
-              <DepBusInfo>
+              <DepBusInfoWrapper>
                 <DepBusNumber>{busNumber}</DepBusNumber>
                 <DepStation>{startStation}</DepStation>
-              </DepBusInfo>
+              </DepBusInfoWrapper>
             </DepBusWrapper>
             <BusInfoContainer>
               <StationName>

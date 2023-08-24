@@ -184,7 +184,7 @@ const Review = () => {
 
     sendDataToServer(reviewData);
     if (
-      !confirm(
+      !window.confirm(
         "만족: " +
           satisfactions +
           "\n불만족: " +

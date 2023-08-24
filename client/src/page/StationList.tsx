@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -73,7 +73,7 @@ const StationListContainer = styled.div`
   margin-bottom: 130px;
 `;
 
-const StationItem = styled.div`
+const StationItemWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -179,7 +179,7 @@ const StationList = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
+      `https://chacha-test-proj.koyeb.app/http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -205,7 +205,7 @@ const StationList = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
+      `https://chacha-test-proj.koyeb.app/http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -374,7 +374,7 @@ const StationList = () => {
       </DirectionButtons>
       <StationListContainer>
         {mergedStationData.map((result, index) => (
-          <StationItem
+          <StationItemWrapper
             key={index}
             className={`
     ${
@@ -393,7 +393,7 @@ const StationList = () => {
             {result.stationNm}
             {result.isMoving && " 🚌(이동중)"}
             {result.isBusLocation && " 🚌"}
-          </StationItem>
+          </StationItemWrapper>
         ))}
       </StationListContainer>
       <ButtonWrapper>

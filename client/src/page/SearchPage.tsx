@@ -168,7 +168,7 @@ const SearchPage: React.FC = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?${queryParams.toString()}`
+      `https://chacha-test-proj.koyeb.app/http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {

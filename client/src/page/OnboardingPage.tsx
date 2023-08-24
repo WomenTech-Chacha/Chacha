@@ -55,7 +55,7 @@ const StationContainer = styled.div`
   margin-bottom: 130px;
   width: 100%;
 `;
-const StationItem = styled.div`
+const StationItemWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
@@ -145,7 +145,8 @@ const OnboardingPage = () => {
     : [];
 
   useEffect(() => {
-    getStationInfo(), getBusPos();
+    getStationInfo();
+    getBusPos();
   }, [busRouteId, plainNo]);
 
   useEffect(() => {
@@ -178,7 +179,7 @@ const OnboardingPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
+      `https://chacha-test-proj.koyeb.app/http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -203,7 +204,7 @@ const OnboardingPage = () => {
     queryParams.append("resultType", "json");
 
     fetch(
-      `https://chacha-5eefb3d386a0.herokuapp.com/http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
+      `https://chacha.fly.dev/http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?${queryParams.toString()}`
     )
       .then((response) => response.json())
       .then((jsonData) => {
@@ -230,9 +231,9 @@ const OnboardingPage = () => {
   const handleEditClick = () => {
     setEditButtonClicked(true); // 도착지 변경을 누름 상태로 변경
   };
-  const handleSetClick = (stationId: string) => {
-    setArrivalStId(stationId);
-  };
+  // const handleSetClick = (stationId: string) => {
+  //   setArrivalStId(stationId);
+  // };
 
   const handleArrivalComplete = () => {
     // 승하차 완료 버튼을 눌렀을 때 실행되는 함수
@@ -320,7 +321,7 @@ const OnboardingPage = () => {
           );
 
           return (
-            <StationItem
+            <StationItemWrapper
               ref={busIcon ? selectedStationRef : null}
               key={index}
               className={`${busIcon ? "start-station" : ""} ${
@@ -348,7 +349,7 @@ const OnboardingPage = () => {
                   </>
                 )}
               </StationWrapper>
-            </StationItem>
+            </StationItemWrapper>
           );
         })}
       </StationContainer>
