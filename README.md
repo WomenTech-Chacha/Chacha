@@ -3,7 +3,7 @@
 <img  width="150" height="80" alt="logo" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/55cf5c0b-526e-4151-b5df-63a6bc057811"/><br/>
 ![차차설명](https://github.com/WomenTech-Chacha/Chacha/assets/97028346/ccde8e8b-d370-43e7-b9b2-e91b5df20a38)
 ***
-## 프로젝트 기간 : 2023.07.12 ~ 2023.08.09 
+## 프로젝트 기간 : 2023.07.12 ~ 2023.08.31 (아이데이션 기간 포함) 
 ## 프로젝트 소개 : 교통약자를 위한 저상버스 탑승 예약 서비스
 - 특정 정류소에서 저상버스 탑승예약을 할 수 있습니다.
 - 탑승 예약시 해당 버스의 버스기사에게 알람이 갑니다.
@@ -36,19 +36,19 @@
 
 ***
 ## 팀원소개
-|심지원|김초율|
-|:---:|:---:|
-|이미지|이미지|
-|Front-end|Back-end|
+|김수현|박예진|손은주|심지원|김초율|
+|:---:|:---:|:---:|:---:|:---:|
+|<img alt="김수현" width="100" height="100" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/30534a55-c8fb-4286-9c11-f2f49f85e632" />|<img alt="박예진" width="100" height="100" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/614b2e83-91fe-48fe-8dd9-952623666afe" />|<img alt="손은주" width="100" height="100" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/99459ad5-a2da-4c81-ab08-946374628752" />|<img alt="심지원" width="100" height="100" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/e97542cc-558b-44f0-9466-d84d640d2969" />|<img alt="김초율" width="100" height="100" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/0746eeb3-4b0a-4009-bee7-9ce3ca143b6d" />|
+|디자이너<br/>(팀장)|기획자|기획자|프론트엔드|백엔드|
 
 ## Service info
 |메인페이지|교통약자 선택|
 |:---:|:---:|
-|이미지|이미지|
-|<b>버스 정류장 검색</b>|<b>위치기반 버스 정류장 안내</b>|
-|이미지|이미지|
+|<img alt="메인" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/55713389-a3e6-4a26-9ea6-a8596920b413"/>|<img alt="유형선택" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/b8b3cde9-8a4a-4a58-bd89-dcf167752bc0"/>|
+|<b>위치기반 버스 정류장 안내</b>|<b>승하차 정류장 선택</b>|
+|<img alt="탑승정류장선택" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/2e06d7f5-934c-4923-8346-9e1076cbabc9"/>|<img alt="승하차 정류장선택" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/0c79e8fa-f7ae-4839-a1f9-7061f500fda6" />|
 |<b>저상버스 탑승 예약</b>|<b>탑승 중 안내</b>|
-|이미지|이미지|
+|<img alt="저상버스 탑승 예약" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/bfb268de-d1dc-4a49-8b5d-c9df009cd9c0"/>|이미지|
 |<b>예약시 버스기사 알림</b>|<b>하차 후 후기 작성</b>|
 |이미지|이미지|
 
