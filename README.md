@@ -16,9 +16,9 @@
 ***
 ## 기술 스택
 ### Front-end
-|TypeScript|React|
-|:---:|:---:|
-|<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228499138-d92eeb0a-e1ca-45b4-ab81-d1bd305cc648.png" alt="Typescript" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="React" width="65" height="65" /></div>|
+|TypeScript|React|styled</br>components|
+|:---:|:---:|:---:|
+|<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228499138-d92eeb0a-e1ca-45b4-ab81-d1bd305cc648.png" alt="Typescript" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="React" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/9b26c174-56b7-4096-8daa-e4b7c1c46715" alt="styled-components" width="65" height="65" /></div>|
 ### Back-end
 |Java|MySQL|Spring<br>Boot|Spring<br> Data JPA|Gradle|
 |:---:|:---:|:---:|:---:|:---:|
@@ -48,9 +48,9 @@
 |<b>위치기반 버스 정류장 안내</b>|<b>승하차 정류장 선택</b>|
 |<img alt="탑승정류장선택" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/2e06d7f5-934c-4923-8346-9e1076cbabc9"/>|<img alt="승하차 정류장선택" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/0c79e8fa-f7ae-4839-a1f9-7061f500fda6" />|
 |<b>저상버스 탑승 예약</b>|<b>탑승 중 안내</b>|
-|<img alt="저상버스 탑승 예약" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/bfb268de-d1dc-4a49-8b5d-c9df009cd9c0"/>|이미지|
+|<img alt="저상버스 탑승 예약" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/bfb268de-d1dc-4a49-8b5d-c9df009cd9c0"/>|<img alt="탑승 중 안내" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/58ab0707-1474-41bb-819f-127c780f75d7"/>|
 |<b>예약시 버스기사 알림</b>|<b>하차 후 후기 작성</b>|
-|이미지|이미지|
+|이미지|<img alt="저상버스 후기 작성" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/46b4a925-8c65-4daf-8e12-142924d3dc86"/>|
 
 ## 아키텍처
 ![차차아키텍처](https://github.com/WomenTech-Chacha/Chacha/assets/97028346/e5a7a97b-7057-48dd-863c-0f1876030240)
