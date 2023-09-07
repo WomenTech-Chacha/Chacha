@@ -50,7 +50,7 @@
 |<b>저상버스 탑승 예약</b>|<b>탑승 중 안내</b>|
 |<img alt="저상버스 탑승 예약" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/bfb268de-d1dc-4a49-8b5d-c9df009cd9c0"/>|<img alt="탑승 중 안내" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/58ab0707-1474-41bb-819f-127c780f75d7"/>|
 |<b>예약시 버스기사 알림</b>|<b>하차 후 후기 작성</b>|
-|이미지|<img alt="저상버스 후기 작성" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/46b4a925-8c65-4daf-8e12-142924d3dc86"/>|
+|<img alt="저상버스 예약 버스기사 알림" width="500" height="300" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/66459d72-afd9-4883-a2f5-056955a3180e"/>|<img alt="저상버스 후기 작성" width="300" height="500" src="https://github.com/WomenTech-Chacha/Chacha/assets/97028346/46b4a925-8c65-4daf-8e12-142924d3dc86"/>|
 
 ## 아키텍처
 ![차차아키텍처](https://github.com/WomenTech-Chacha/Chacha/assets/97028346/e5a7a97b-7057-48dd-863c-0f1876030240)
