@@ -54,3 +54,6 @@
 
 ## 아키텍처
 ![차차아키텍처](https://github.com/WomenTech-Chacha/Chacha/assets/97028346/e5a7a97b-7057-48dd-863c-0f1876030240)
+
+## API 명세서
+### [차차 API 명세서](https://documenter.getpostman.com/view/28817005/2s9YC1Wub7)
